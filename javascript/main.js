@@ -359,7 +359,7 @@ function searchActivities() {
     filteredActivites.forEach(activity => {
       const p = document.createElement('p');
       p.innerHTML = `
-        ATIVIDADE : ${activity.texto}: ${activity.valor}
+        ${activity.texto}: <strong>Taxa: </strong>${activity.valor}
       `;
       resultsContainer.appendChild(p);
     });
