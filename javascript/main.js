@@ -1,6 +1,6 @@
 // Texto base: "FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: *valor*  (TAXA DE FISCALIZAÇÃO PARA RENOVAÇÃO DA LICENÇA DE FUNCIONAMENTO PARA ATIVIDADE DE FORNECIMENTO DE ALIMENTOS PREPARADOS PREPONDERANTEMENTE PARA EMPRESAS)"
 
-const atividadesVigilanciaSanitaria = [
+const activities = [
     // 1.1.1. Indústria de alimentos
     { texto: 'Refino e outros tratamentos do sal', valor: 'R$ 4.072,20' },
     { texto: 'Fabricação de conservas de frutas', valor: 'R$ 4.072,20' },
@@ -344,10 +344,32 @@ function searchActivities() {
   if (searchTerm === '') {
     resultsContainer.innerHTML = `
       <div class="card border-warning bg-secondary mb-3" style="max-width: 15rem; margin: auto">
-    <div class="card-body text-warning">
-    <p class="card-text">Digite uma atividade!</p>
-  </div>
-</div>
+        <div class="card-body text-warning">
+          <p class="card-text">Digite uma atividade!</p>
+        </div>
+      </div>
+    `
+    return;
+  }
+
+  //Filtrar atividades pelo termo de busca
+  const filteredActivites = activities.filter(activity => activity.texto.toLowerCase().includes(searchTerm));
+
+  if(filteredActivites.length > 0) {
+    filteredActivites.forEach(activity => {
+      const p = document.createElement('p');
+      p.innerHTML = `
+        ATIVIDADE : ${activity.texto}: ${activity.valor}
+      `;
+      resultsContainer.appendChild(p);
+    });
+  } else {
+    resultsContainer.innerHTML = `
+      <div class="card border-danger bg-secondary mb-3" style="max-width: 15rem; margin: auto">
+        <div class="card-body text-danger">
+          <p class="card-text">Não encontrado...</p>
+        </div>
+      </div>
     `
   }
 
