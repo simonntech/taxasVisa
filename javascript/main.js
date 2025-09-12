@@ -361,6 +361,7 @@ function searchActivities() {
       p.innerHTML = `
         ${activity.texto}: <strong>Taxa: </strong>${activity.valor}
       `;
+      p.onclick = () => selectActivity(activity);
       resultsContainer.appendChild(p);
     });
   } else {
@@ -379,5 +380,30 @@ function selectActivity(activity) {
   const descontoSelect = document.getElementById('desconto');
   const desconto = descontoSelect.value;
 
-  let valorTaxa = parseFloat(activity.valor.replace)
+  let valorTaxa = parseFloat(activity.valor.replace('R$', '').replace('.', '').replace(',', '.'));
+  let valorFinal = valorTaxa;
+  let textoResultado = `
+    <strong>Atividade:</strong> ${activity.texto}<br>
+    <strong>Valor original:</strong> ${activity.valor}
+  `;
+
+  if (desconto && !isNaN(desconto)) {
+    const descontoPercentual = parseFloat(desconto) / 100;
+    valorFinal = valorTaxa - (valorTaxa * descontoPercentual);
+    textoResultado += `
+      <br><strong>Desconto:</strong> ${desconto}%<br>
+      <strong>Valor com desconto: </strong> R$ ${valorFinal.toFixed(2).replace('.', ',')}
+    `
+  }
+
+  resultsContainer.innerHTML = `
+    <div class="card border-success bg-secondary text-white mt-3" style="max-width: 25rem; margin: auto">
+      <div class="card-body">
+        <p class="card-text">${textoResultado}</p>
+      </div>
+    </div>
+  `;
+
+  console.log(`Valor original da taxa: ${valorTaxa}`);
+  console.log(`Valor final com desconto: ${valorFinal}`);
 }
