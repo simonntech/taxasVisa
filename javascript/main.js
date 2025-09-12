@@ -335,6 +335,8 @@ const activities = [
     { texto: 'Laudo técnico de avaliação - Acima de 500 m²', valor: 'R$ 1.221,66' },
   ];
 
+let selectedActivityData = null;
+
 function searchActivities() {
   const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
   const resultsContainer = document.getElementById('results');
@@ -377,6 +379,8 @@ function searchActivities() {
 }
 
 function selectActivity(activity) {
+  selectedActivityData = activity;
+
   const resultsContainer = document.getElementById('results');
   const descontoSelect = document.getElementById('desconto');
   const desconto = descontoSelect.value;
@@ -388,14 +392,20 @@ function selectActivity(activity) {
     <strong>Valor original:</strong> ${activity.valor}
   `;
 
+  let botaoGerarTexto = `
+    <div><button class="btn bg-dark text-light mt-2" onclick="generateTxt()">Gerar Texto</button></div>
+  `;
+
   if (desconto && !isNaN(desconto)) {
     const descontoPercentual = parseFloat(desconto) / 100;
     valorFinal = valorTaxa - (valorTaxa * descontoPercentual);
     textoResultado += `
       <br><strong>Desconto:</strong> ${desconto}%<br>
       <strong>Valor com desconto: </strong> R$ ${valorFinal.toFixed(2).replace('.', ',')}
-    `
+    `;
   }
+
+  textoResultado += botaoGerarTexto;
 
   resultsContainer.innerHTML = `
     <div class="card mt-3" style=" margin: auto">
@@ -405,6 +415,10 @@ function selectActivity(activity) {
     </div>
   `;
 
-  console.log(`Valor original da taxa: ${valorTaxa}`);
-  console.log(`Valor final com desconto: ${valorFinal}`);
+}
+ 
+function generateTxt() {
+  const text = document.getElementById('text');
+  text.innerHTML = `"FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${selectedActivityData.valor} (TAXA DE FISCALIZAÇÃO PARA ${selectedActivityData.texto.toUpperCase()})"`
+
 }
