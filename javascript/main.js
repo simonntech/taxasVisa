@@ -358,6 +358,7 @@ function searchActivities() {
   if(filteredActivites.length > 0) {
     filteredActivites.forEach(activity => {
       const p = document.createElement('p');
+      p.classList.add('btn')
       p.innerHTML = `
         ${activity.texto}: <strong>Taxa: </strong>${activity.valor}
       `;
@@ -397,7 +398,7 @@ function selectActivity(activity) {
   }
 
   resultsContainer.innerHTML = `
-    <div class="card border-success bg-secondary text-white mt-3" style="max-width: 25rem; margin: auto">
+    <div class="card mt-3" style=" margin: auto">
       <div class="card-body">
         <p class="card-text">${textoResultado}</p>
       </div>
