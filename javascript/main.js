@@ -340,8 +340,10 @@ let selectedActivityData = null;
 function searchActivities() {
   const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
   const resultsContainer = document.getElementById('results');
+  const textContainer = document.getElementById('text');
 
   resultsContainer.innerHTML = '';
+  textContainer.innerHTML = '';
 
   if (searchTerm === '') {
     resultsContainer.innerHTML = `
@@ -405,6 +407,8 @@ function selectActivity(activity) {
     `;
   }
 
+  selectedActivityData.valorFinalCalculado = valorFinal;
+
   textoResultado += botaoGerarTexto;
 
   resultsContainer.innerHTML = `
@@ -421,7 +425,11 @@ function generateTxt() {
   const text = document.getElementById('text');
   const notice = document.getElementById('copy-notice');
 
-  const textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${selectedActivityData.valor} (TAXA DE FISCALIZAÇÃO PARA ${selectedActivityData.texto.toUpperCase()})`
+  const valorComDescontoFormatado = `
+    R$ ${selectedActivityData.valorFinalCalculado.toFixed(2).replace('.', ',')}
+  `
+
+  const textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${valorComDescontoFormatado} (TAXA DE FISCALIZAÇÃO PARA ${selectedActivityData.texto.toUpperCase()})`
 
   text.innerHTML = textoFinal;
 
