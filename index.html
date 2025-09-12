@@ -19,6 +19,19 @@
             <h6 class="text-body-secondary text-center mb-4">Conforme Comunicado SRE 15, de 19 de Dezembro de 2024 </h6>
             <div style="display: flex;">
                 <input type="text" id="searchInput" placeholder="Digite a atividade" class="form-control">
+                <select id="desconto" class="form-control mx-2" style="width: 25%;">
+                    <option value="">Desconto</option>
+                    <option value="40">40%</option>
+                    <option value="45">45%</option>
+                    <option value="50">50%</option>
+                    <option value="55">55%</option>
+                    <option value="60">60%</option>
+                    <option value="65">65%</option>
+                    <option value="70">70%</option>
+                    <option value="75">75%</option>
+                    <option value="80">80%</option>
+                    <option value="85">85%</option>
+                </select>
                 <button class="btn bg-dark text-light" onclick="searchActivities()">Buscar</button>
             </div>
             <div class="text-body" id="results"></div>
