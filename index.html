@@ -18,7 +18,7 @@
             <h4 class="card-title text-center mb-4">Gerador de texto e valor de taxa</h4>
             <h6 class="text-body-secondary text-center mb-4">Conforme Comunicado SRE 15, de 19 de Dezembro de 2024 </h6>
             <div style="display: flex;">
-                <input type="text" id="searchInput" placeholder="Digite a atividade" class="form-control">
+                <input type="text" id="searchInput" placeholder="Digite a atividade" class="form-control" onkeyup="searchActivities()">
                 <select id="desconto" class="form-control mx-2" style="width: 25%;">
                     <option value="">Desconto</option>
                     <option value="40">40%</option>
@@ -32,7 +32,7 @@
                     <option value="80">80%</option>
                     <option value="85">85%</option>
                 </select>
-                <button class="btn bg-dark text-light" onclick="searchActivities()">Buscar</button>
+                <button class="btn bg-dark text-light" onclick="">Gerar Texto</button>
             </div>
             <div class="text-body" id="results"></div>
         </div>

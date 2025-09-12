@@ -372,6 +372,12 @@ function searchActivities() {
       </div>
     `
   }
+}
 
+function selectActivity(activity) {
+  const resultsContainer = document.getElementById('results');
+  const descontoSelect = document.getElementById('desconto');
+  const desconto = descontoSelect.value;
 
+  let valorTaxa = parseFloat(activity.valor.replace)
 }
