@@ -419,6 +419,19 @@ function selectActivity(activity) {
  
 function generateTxt() {
   const text = document.getElementById('text');
-  text.innerHTML = `"FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${selectedActivityData.valor} (TAXA DE FISCALIZAÇÃO PARA ${selectedActivityData.texto.toUpperCase()})"`
+  const notice = document.getElementById('copy-notice');
+
+  const textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${selectedActivityData.valor} (TAXA DE FISCALIZAÇÃO PARA ${selectedActivityData.texto.toUpperCase()})`
+
+  text.innerHTML = textoFinal;
+
+  text.onclick = function () {
+    navigator.clipboard.writeText(text.innerText).then(() => {
+      notice.style.display = 'inline';
+      setTimeout(() => {
+        notice.style.display = 'none';
+      }, 2000);
+    })
+  }
 
 }
