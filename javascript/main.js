@@ -362,7 +362,7 @@ function searchActivities() {
   if(filteredActivites.length > 0) {
     filteredActivites.forEach(activity => {
       const p = document.createElement('p');
-      p.classList.add('btn')
+      p.classList.add('btn','container', 'text-center')
       p.innerHTML = `
         ${activity.texto}: <strong>Taxa: </strong>${activity.valor}
       `;
