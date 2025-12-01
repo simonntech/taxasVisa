@@ -420,6 +420,11 @@ function selectActivity(activity) {
   `;
 
 }
+
+function moratoriumFine() {
+  const btn = document.getElementById('multa');
+  btn.classList.toggle('active');
+}
  
 function generateTxt() {
   const text = document.getElementById('text');
