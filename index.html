@@ -9,9 +9,9 @@
 </head>
 <body>
     <div class="header bg-dark text-light">
-        <div class="header-title text-center p-3">
+        <div class="header-title text-center p-2">
             <h1>
-                <img src="andradina.png" style="width: 80px;">
+                <img src="andradina.png" style="width: 50px;">
                 VISAM - Andradina/SP
             </h1>
         </div>
@@ -26,14 +26,15 @@
             <div style="display: flex; justify-content: center; margin: 13px;">
                 <div class="btn-group">
                     <div class="btn-group mx-4">
-                        <button class="btn btn-outline-dark" onclick="moratoriumFine()" id="multa"><img src="iconemulta.png" class="my-2"><p>Multa Moratória 1 mês</p></button>
-                        <button class="btn btn-outline-dark" onclick="moratoriumFine()" id="multa"><img src="iconemulta.png" class="my-2"><p>Multa Moratória 2 meses</p></button>
-                        <button class="btn btn-outline-dark" onclick="moratoriumFine()" id="multa"><img src="iconemulta.png" class="my-2"><p>Multa Moratória 3 meses</p></button>
-                        <button class="btn btn-outline-dark" onclick="moratoriumFine()" id="multa"><img src="iconemulta.png" class="my-2"><p>Multa Moratória mais de 3 meses</p></button>
+                        <button class="btn btn-outline-dark" onclick="moratoriumFine()" id="multa"><img src="iconemulta.png" class="my-2"><p>Multa Moratória</p><p>1 mês</p></button>
+                        <button class="btn btn-outline-dark" onclick="moratoriumFine()" id="multa"><img src="iconemulta.png" class="my-2"><p>Multa Moratória</p><p>2 meses</p></button>
+                        <button class="btn btn-outline-dark" onclick="moratoriumFine()" id="multa"><img src="iconemulta.png" class="my-2"><p>Multa Moratória</p><p>3 meses</p></button>
+                        <button class="btn btn-outline-dark" onclick="moratoriumFine()" id="multa"><img src="iconemulta.png" class="my-2"><p>Multa Moratória</p><p>mais de 3 meses</p></button>
+                        <button class="btn btn-outline-dark" onclick="infringement()" id="infra"><img src="warning.png" class="my-2"><p>Auto de Infração</p></button>
                     </div>
-                    <button class="btn btn-outline-dark" onclick="infringement()" id="infra"><img src="warning.png" class="my-2"><p>Auto de Infração</p></button>
                 </div>
             </div>
+            <hr>
             <h5 class="card-title text-center mb-4">Verificar valor com desconto, e gerar texto</h5>
             <div style="display: flex;">
                 <label for="desconto"> 
