@@ -422,8 +422,8 @@ function selectActivity(activity) {
 }
 
 function moratoriumFine() {
-  const btn = document.getElementById('multa');
-  btn.classList.toggle('active');
+  const text = document.getElementById('text');
+  const notice = document.getElementById('copy-notice');
 }
  
 function generateTxt() {
