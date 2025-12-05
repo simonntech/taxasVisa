@@ -26,7 +26,7 @@
             <div style="display: flex; justify-content: center; margin: 13px;">
                 <div class="btn-group">
                     <div class="btn-group mx-4">
-                        <button class="btn btn-outline-dark" onclick="moratoriumFine()" id="multa"><img src="iconemulta.png" class="my-2"><p>Multa Moratória</p><p>1 mês</p></button>
+                        <button class="btn btn-outline-dark" onclick="generateTxt(true)" id="multa"><img src="iconemulta.png" class="my-2"><p>Multa Moratória</p><p>1 mês</p></button>
                         <button class="btn btn-outline-dark" onclick="moratoriumFine()" id="multa"><img src="iconemulta.png" class="my-2"><p>Multa Moratória</p><p>2 meses</p></button>
                         <button class="btn btn-outline-dark" onclick="moratoriumFine()" id="multa"><img src="iconemulta.png" class="my-2"><p>Multa Moratória</p><p>3 meses</p></button>
                         <button class="btn btn-outline-dark" onclick="moratoriumFine()" id="multa"><img src="iconemulta.png" class="my-2"><p>Multa Moratória</p><p>mais de 3 meses</p></button>
@@ -37,9 +37,6 @@
             <hr>
             <h5 class="card-title text-center mb-4">Verificar valor com desconto, e gerar texto</h5>
             <div style="display: flex;">
-                <label for="desconto"> 
-                    <p class="text-body-secondary mb-4 m-3">Desconto: </p>
-                </label>
                 <select id="desconto" class="form-control mx-2" style="width: 25%;">
                     <option value="">Sem desconto</option>
                     <option value="40">40%</option>
@@ -55,7 +52,7 @@
                 </select>
                 <input type="text" id="searchInput" placeholder="Digite a atividade" class="form-control" onkeyup="searchActivities()">
             </div>
-            <div class="text-body" id="results" style="width: 80%;"></div>
+            <div class="d-grid gap-2 my-2" id="results" ></div>
             <div class="text-body" id="text" style="cursor: pointer", title="Clique para copiar"></div>
             <span id="copy-notice" style="display: none; color: rgb(12, 66, 12); font-weight: bold;">
                 Texto copiado para a área de transferência!

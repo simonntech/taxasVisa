@@ -362,7 +362,7 @@ function searchActivities() {
   if(filteredActivites.length > 0) {
     filteredActivites.forEach(activity => {
       const p = document.createElement('p');
-      p.classList.add('btn','container', 'text-center')
+      p.classList.add('btn','btn-outline-dark', 'mb-2', 'd-grid' , 'text-center')
       p.innerHTML = `
         ${activity.texto}: <strong>Taxa: </strong>${activity.valor}
       `;
@@ -421,12 +421,7 @@ function selectActivity(activity) {
 
 }
 
-function moratoriumFine() {
-  const text = document.getElementById('text');
-  const notice = document.getElementById('copy-notice');
-}
- 
-function generateTxt() {
+function generateTxt(fine) {
   const text = document.getElementById('text');
   const notice = document.getElementById('copy-notice');
 
@@ -436,7 +431,13 @@ function generateTxt() {
 
   const textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${valorComDescontoFormatado} (TAXA DE FISCALIZAÇÃO PARA ${selectedActivityData.texto.toUpperCase()})`
 
-  text.innerHTML = textoFinal;
+  const textoMultaMoratoria = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${valorComDescontoFormatado} (TAXA DE MULTA MORATÓRIA POR ATRASO NA SOLICITAÇÃO DA LICENÇA DE FUNCIONAMENTO PARA ${selectedActivityData.texto.toUpperCase()})`
+
+  if(fine) {
+    text.innerText = textoMultaMoratoria;
+  } else {
+    text.innerText = textoFinal;
+  }
 
   text.onclick = function () {
     navigator.clipboard.writeText(text.innerText).then(() => {
