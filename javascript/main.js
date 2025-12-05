@@ -402,6 +402,7 @@ function selectActivity(activity) {
       <button class="btn btn-outline-dark" onclick="generateTxt(true)" >Multa Moratória 3 meses</button>
       <button class="btn btn-outline-dark" onclick="generateTxt(true)" >Multa Moratória mais de 3 meses</button>
     </div>
+    <h6 class="text-center my-2 text-muted">Clique no texto abaixo para copiar</h6>
   `;
 
   if (desconto && !isNaN(desconto)) {
@@ -440,9 +441,9 @@ function generateTxt(fine) {
   const textoMultaMoratoria = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${valorComDescontoFormatado} (TAXA DE MULTA MORATÓRIA POR ATRASO NA SOLICITAÇÃO DA LICENÇA DE FUNCIONAMENTO PARA ${selectedActivityData.texto.toUpperCase()})`
 
   if(fine) {
-    text.innerHTML = `<h6>Clique no texto para copiar</h6>\n${textoMultaMoratoria}`;
+    text.innerHTML = textoMultaMoratoria;
   } else {
-    text.innerHTML = `<h6>Clique no texto para copiar</h6>\n${textoFinal}`;
+    text.innerHTML = textoFinal;
   }
 
   text.onclick = function () {
