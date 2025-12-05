@@ -456,11 +456,10 @@ function generateTxt(type) {
       break;
     case 'multaMais3':
       percentualMulta = 1.00; // 100%
-      valorBase = valorTaxaOriginal;
+      valorBase = selectedActivityData.valorFinalCalculado;
       isFine = true;
       break;
     case 'licenciamento':
-      isFine = false;
       default:
       break;
     }
