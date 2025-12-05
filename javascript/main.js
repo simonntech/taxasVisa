@@ -394,8 +394,11 @@ function selectActivity(activity) {
     <strong>Valor original:</strong> ${activity.valor}
   `;
 
-  let botaoGerarTexto = `
-    <div><button class="btn bg-dark text-light mt-2" onclick="generateTxt()">Gerar Texto</button></div>
+  let botoes = `
+    <div class="btn-group mb-2 mt-2">
+      <button class="btn btn-outline-dark" onclick="generateTxt()">Gerar Texto</button>
+      <button class="btn btn-outline-dark" onclick="generateTxt(true)" >Multa Moratória 1 mês</button>
+    </div>
   `;
 
   if (desconto && !isNaN(desconto)) {
@@ -409,7 +412,7 @@ function selectActivity(activity) {
 
   selectedActivityData.valorFinalCalculado = valorFinal;
 
-  textoResultado += botaoGerarTexto;
+  textoResultado += botoes;
 
   resultsContainer.innerHTML = `
     <div class="card mt-3" style=" margin: auto">
