@@ -396,11 +396,11 @@ function selectActivity(activity) {
 
   let botoes = `
     <div class="btn-group mb-2 mt-2">
-      <button class="btn btn-outline-dark" onclick="generateTxt()">Licenciamento</button>
-      <button class="btn btn-outline-dark" onclick="generateTxt(true)" >Multa Moratória 1 mês</button>
-      <button class="btn btn-outline-dark" onclick="generateTxt(true)" >Multa Moratória 2 meses</button>
-      <button class="btn btn-outline-dark" onclick="generateTxt(true)" >Multa Moratória 3 meses</button>
-      <button class="btn btn-outline-dark" onclick="generateTxt(true)" >Multa Moratória mais de 3 meses</button>
+      <button class="btn btn-outline-dark" onclick="generateTxt('licenciamento')">Licenciamento</button>
+      <button class="btn btn-outline-dark" onclick="generateTxt('multa1')" >Multa Moratória 1 mês</button>
+      <button class="btn btn-outline-dark" onclick="generateTxt('multa2')" >Multa Moratória 2 meses</button>
+      <button class="btn btn-outline-dark" onclick="generateTxt('multa3')" >Multa Moratória 3 meses</button>
+      <button class="btn btn-outline-dark" onclick="generateTxt('multaMais3')" >Multa Moratória mais de 3 meses</button>
     </div>
     <h6 class="text-center my-2 text-muted">Clique no texto abaixo para copiar</h6>
   `;
@@ -428,22 +428,51 @@ function selectActivity(activity) {
 
 }
 
-function generateTxt(fine) {
+function generateTxt(type) {
   const text = document.getElementById('text');
   const notice = document.getElementById('copy-notice');
 
-  const valorComDescontoFormatado = `
-    R$ ${selectedActivityData.valorFinalCalculado.toFixed(2).replace('.', ',')}
-  `
+  const valorTaxaOriginal = parseFloat(selectedActivityData.valor.replace('R$', '').replace('.', '').replace(',', '.'));
 
-  const textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${valorComDescontoFormatado} (TAXA DE FISCALIZAÇÃO PARA ${selectedActivityData.texto.toUpperCase()})`
+  let valorBase = selectedActivityData.valorFinalCalculado;
+  let percentualMulta = 0;
+  let isFine = false;
 
-  const textoMultaMoratoria = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${valorComDescontoFormatado} (TAXA DE MULTA MORATÓRIA POR ATRASO NA SOLICITAÇÃO DA LICENÇA DE FUNCIONAMENTO PARA ${selectedActivityData.texto.toUpperCase()})`
+  switch(type) {
+    case 'multa1':
+      percentualMulta = 0.05; // 5%
+      valorBase = selectedActivityData.valorFinalCalculado;
+      isFine = true;
+      break;
+    case 'multa2':
+      percentualMulta = 0.15; // 15%
+      valorBase = selectedActivityData.valorFinalCalculado;
+      isFine = true;
+      break;
+    case 'multa3':
+      percentualMulta = 0.50; // 50%
+      valorBase = selectedActivityData.valorFinalCalculado;
+      isFine = true;
+      break;
+    case 'multaMais3':
+      percentualMulta = 1.00; // 100%
+      valorBase = valorTaxaOriginal;
+      isFine = true;
+      break;
+    }
 
-  if(fine) {
-    text.innerHTML = textoMultaMoratoria;
+  const valorMulta = isFine ? (valorBase * percentualMulta) : 0;
+  const valorFinalComMulta = isFine ? valorMulta : valorBase;
+
+  const valorFormatado = `R$ ${valorFinalComMulta.toFixed(2).replace('.', ',')}`;
+  const activityUpper = selectedActivityData.texto.toUpperCase();
+
+  let textoFinal;
+  
+  if (isFine) {
+    textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${valorFormatado} (TAXA DE MULTA MORATÓRIA POR ATRASO NA SOLICITAÇÃO DA LICENÇA DE FUNCIONAMENTO PARA ${activityUpper})`
   } else {
-    text.innerHTML = textoFinal;
+    textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${valorFormatado} (TAXA DE FISCALIZAÇÃO PARA RENOVAÇÃO DA LICENÇA DE FUNCIONAMENTO PARA ${activityUpper})`
   }
 
   text.onclick = function () {
