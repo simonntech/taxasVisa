@@ -459,6 +459,9 @@ function generateTxt(type) {
       valorBase = valorTaxaOriginal;
       isFine = true;
       break;
+    case 'licenciamento':
+      default:
+      break;
     }
 
   const valorMulta = isFine ? (valorBase * percentualMulta) : 0;
