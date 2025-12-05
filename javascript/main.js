@@ -460,6 +460,7 @@ function generateTxt(type) {
       isFine = true;
       break;
     case 'licenciamento':
+      isFine = false;
       default:
       break;
     }
@@ -478,6 +479,7 @@ function generateTxt(type) {
     textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${valorFormatado} (TAXA DE FISCALIZAÇÃO PARA RENOVAÇÃO DA LICENÇA DE FUNCIONAMENTO PARA ${activityUpper})`
   }
 
+  text.innerText = textoFinal;
   text.onclick = function () {
     navigator.clipboard.writeText(text.innerText).then(() => {
       notice.style.display = 'inline';
