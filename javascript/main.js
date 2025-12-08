@@ -396,7 +396,8 @@ function selectActivity(activity) {
 
   let botoes = `
     <div class="btn-group mb-2 mt-2">
-      <button class="btn btn-outline-dark" onclick="generateTxt('licenciamento')">Licenciamento</button>
+      <button class="btn btn-outline-dark" onclick="generateTxt('inicial')">Licenciamento inicial</button>
+      <button class="btn btn-outline-dark" onclick="generateTxt('licenciamento')">Renovar Licenciamento</button>
       <button class="btn btn-outline-dark" onclick="generateTxt('multa1')" >Multa Moratória 1 mês</button>
       <button class="btn btn-outline-dark" onclick="generateTxt('multa2')" >Multa Moratória 2 meses</button>
       <button class="btn btn-outline-dark" onclick="generateTxt('multa3')" >Multa Moratória 3 meses</button>
@@ -437,6 +438,7 @@ function generateTxt(type) {
   let valorBase = selectedActivityData.valorFinalCalculado;
   let percentualMulta = 0;
   let isFine = false;
+  let initial = false;
 
   switch(type) {
     case 'multa1':
@@ -459,6 +461,8 @@ function generateTxt(type) {
       valorBase = selectedActivityData.valorFinalCalculado;
       isFine = true;
       break;
+    case 'inicial':
+      initial = true;
     case 'licenciamento':
       default:
       break;
@@ -474,8 +478,10 @@ function generateTxt(type) {
   
   if (isFine) {
     textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${valorFormatado} (TAXA DE MULTA MORATÓRIA POR ATRASO NA SOLICITAÇÃO DA LICENÇA DE FUNCIONAMENTO PARA ${activityUpper})`
+  } else if (initial) {
+    textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${valorFormatado} (TAXA DE FISCALIZAÇÃO PARA LICENCIAMENTO INICIAL PARA ${activityUpper})` 
   } else {
-    textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${valorFormatado} (TAXA DE FISCALIZAÇÃO PARA RENOVAÇÃO DA LICENÇA DE FUNCIONAMENTO PARA ${activityUpper})`
+    textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${valorFormatado} (TAXA DE FISCALIZAÇÃO PARA RENOVAÇÃO DA LICENÇA PARA ${activityUpper})`
   }
 
   text.innerText = textoFinal;
