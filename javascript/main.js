@@ -475,14 +475,14 @@ function generateTxt(type) {
   let textoFinal;
   
   if (isFine) {
-    textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${valorFormatado} (TAXA DE MULTA MORATÓRIA POR ATRASO NA SOLICITAÇÃO DA LICENÇA DE FUNCIONAMENTO PARA ${activityUpper})`
+    textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: <strong>${valorFormatado}</strong> (TAXA DE MULTA MORATÓRIA POR ATRASO NA SOLICITAÇÃO DA LICENÇA DE FUNCIONAMENTO PARA <strong>${activityUpper}</strong>)`
   } else if (initial) {
-    textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${valorFormatado} (TAXA DE FISCALIZAÇÃO PARA LICENCIAMENTO INICIAL PARA ${activityUpper})` 
+    textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: <strong>${valorFormatado}</strong> (TAXA DE FISCALIZAÇÃO PARA LICENCIAMENTO INICIAL PARA <strong>${activityUpper}</strong>)` 
   } else {
-    textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${valorFormatado} (TAXA DE FISCALIZAÇÃO PARA RENOVAÇÃO DA LICENÇA PARA ${activityUpper})`
+    textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: <strong>${valorFormatado}</strong> (TAXA DE FISCALIZAÇÃO PARA RENOVAÇÃO DA LICENÇA PARA <strong>${activityUpper}</strong>)`
   }
 
-  text.innerText = textoFinal;
+  text.innerHTML = textoFinal;
   text.onclick = function () {
     navigator.clipboard.writeText(text.innerText).then(() => {
       notice.style.display = 'inline';
@@ -502,19 +502,19 @@ function infringement() {
       <div class="card-body">
         <h5 class="card-title">Auto de Infração</h5>
         <input type="number" min="0" id="qntUFIR" class="form-control mb-2" placeholder="Quantidade de UFIRs">
+        <input type="search" id="numAutoInfracao" class="form-control mb-2" autocomplete="off" placeholder="Número do Auto de Infração">
         <button class="btn btn-outline-dark" onclick="infringementBtn()" id="infra"><strong>Gerar Texto</strong></button>
       </div>
     </div>
   `;
 
-  
 }
-
 
 function infringementBtn() {
   const text = document.getElementById('text');
   const notice = document.getElementById('copy-notice');
   const qntUFIR = document.getElementById('qntUFIR').value;
+  const numAutoInfracao = document.getElementById('numAutoInfracao').value;
 
 if (qntUFIR === '' || isNaN(qntUFIR) || qntUFIR <= 0) {
   text.innerHTML = `
@@ -529,7 +529,7 @@ if (qntUFIR === '' || isNaN(qntUFIR) || qntUFIR <= 0) {
     const valorTotal = qntUFIR * valorUFIR;
     const valorFormatado = `R$ ${valorTotal.toFixed(2).replace('.', ',')}`;
 
-    const textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${valorFormatado} (REFERENTE AO AUTO DE IMPOSIÇÃO DE PENALIDADE DE MULTA Nº 350210-1- 003/25, POR INCORRER EM INFRAÇÃO SANITÁRIA CONSIDERADA DE RISCO À SAÚDE)`;
+    const textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: <strong>${valorFormatado}</strong> (REFERENTE AO AUTO DE IMPOSIÇÃO DE PENALIDADE DE MULTA <strong>Nº ${numAutoInfracao}</strong>, POR INCORRER EM INFRAÇÃO SANITÁRIA CONSIDERADA DE RISCO À SAÚDE)`;
 
     text.innerHTML = textoFinal;
 
