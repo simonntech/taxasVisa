@@ -495,3 +495,25 @@ function generateTxt(type) {
   }
 
 }
+
+function infringement() {
+  const resultsContainer = document.getElementById('results');
+  resultsContainer.innerHTML = `
+    <div class="card mt-3" style="width: 80%; margin: auto">
+      <div class="card-body">
+        <h5 class="card-title">Auto de Infração</h5>
+        <input type="number" min="0" id="qntUFIR" class="form-control mb-2" placeholder="Quantidade de UFIRs">
+        <button class="btn btn-outline-dark" onclick="infringement()" id="infra"><strong>Gerar Texto</strong></button>
+      </div>
+    </div>
+  `;
+
+  const qntUFIR = document.getElementById('qntUFIR').value;
+
+  if (qntUFIR && !isNaN(qntUFIR) && qntUFIR > 0) {
+    const valorUFIR = 4.84; // Valor da UFIR em reais
+    const valorTotal = qntUFIR * valorUFIR;
+    const valorFormatado = `R$ ${valorTotal.toFixed(2).replace('.', ',')}`;
+  }
+  
+}
