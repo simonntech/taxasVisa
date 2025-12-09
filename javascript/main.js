@@ -497,31 +497,42 @@ function generateTxt(type) {
 }
 
 function infringement() {
-  const text = document.getElementById('text');
-  const notice = document.getElementById('copy-notice');
-
   const resultsContainer = document.getElementById('results');
+
   resultsContainer.innerHTML = `
     <div class="card mt-3" style="width: 80%; margin: auto">
       <div class="card-body">
         <h5 class="card-title">Auto de Infração</h5>
         <input type="number" min="0" id="qntUFIR" class="form-control mb-2" placeholder="Quantidade de UFIRs">
-        <button class="btn btn-outline-dark" onclick="infringement()" id="infra"><strong>Gerar Texto</strong></button>
+        <button class="btn btn-outline-dark" onclick="infringementBtn()" id="infra"><strong>Gerar Texto</strong></button>
       </div>
     </div>
   `;
 
+  
+}
+
+
+function infringementBtn() {
+  const text = document.getElementById('text');
+  const notice = document.getElementById('copy-notice');
   const qntUFIR = document.getElementById('qntUFIR').value;
 
-  if (qntUFIR && !isNaN(qntUFIR) && qntUFIR > 0) {
+if (qntUFIR === '' || isNaN(qntUFIR) || qntUFIR <= 0) {
+  text.innerHTML = `
+    <div class="card border-danger bg-secondary mb-3" style="max-width: 15rem; margin: auto">
+      <div class="card-body text-danger">
+        <p class="card-text">Digite uma quantidade de UFIRs válida.</p>
+      </div>
+    </div>
+  `;
+  } else {
     const valorUFIR = 37.02; // Valor da UFIR em reais
     const valorTotal = qntUFIR * valorUFIR;
     const valorFormatado = `R$ ${valorTotal.toFixed(2).replace('.', ',')}`;
 
     const textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${valorFormatado} (REFERENTE AO AUTO DE IMPOSIÇÃO DE PENALIDADE DE MULTA Nº 350210-1- 003/25, POR INCORRER EM INFRAÇÃO SANITÁRIA CONSIDERADA DE RISCO À SAÚDE)`;
 
-    text.innerText = textoFinal;
+    text.innerHTML = textoFinal;  
   }
-
-  
 }
