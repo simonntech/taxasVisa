@@ -433,8 +433,6 @@ function generateTxt(type) {
   const text = document.getElementById('text');
   const notice = document.getElementById('copy-notice');
 
-  const valorTaxaOriginal = parseFloat(selectedActivityData.valor.replace('R$', '').replace('.', '').replace(',', '.'));
-
   let valorBase = selectedActivityData.valorFinalCalculado;
   let percentualMulta = 0;
   let isFine = false;
@@ -520,7 +518,7 @@ function infringementBtn() {
 
 if (qntUFIR === '' || isNaN(qntUFIR) || qntUFIR <= 0) {
   text.innerHTML = `
-    <div class="card border-danger bg-secondary mb-3" style="max-width: 15rem; margin: auto">
+    <div class="card border-danger mb-3" style="max-width: 15rem; margin: auto">
       <div class="card-body text-danger">
         <p class="card-text">Digite uma quantidade de UFIRs válida.</p>
       </div>
@@ -533,6 +531,15 @@ if (qntUFIR === '' || isNaN(qntUFIR) || qntUFIR <= 0) {
 
     const textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${valorFormatado} (REFERENTE AO AUTO DE IMPOSIÇÃO DE PENALIDADE DE MULTA Nº 350210-1- 003/25, POR INCORRER EM INFRAÇÃO SANITÁRIA CONSIDERADA DE RISCO À SAÚDE)`;
 
-    text.innerHTML = textoFinal;  
+    text.innerHTML = textoFinal;
+
+    text.onclick = function () {
+      navigator.clipboard.writeText(text.innerText).then(() => {
+        notice.style.display = 'inline';
+        setTimeout(() => {
+          notice.style.display = 'none';
+        }, 2000);
+      })
+    }
   }
 }
