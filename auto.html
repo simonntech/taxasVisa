@@ -18,26 +18,12 @@
     </div>
 
     <div class="card" style="width: 80%; margin: auto; margin-top: 50px;">
-        <div class="card-header text-center mb-4"><h3>Gerador de taxas, multas e autos de infração</h3>
+        <div class="card-header text-center mb-4"><h3>Autos de Infração</h3>
             <p class="text-body-secondary text-center">Conforme Comunicado SRE 15, de 19 de Dezembro de 2024 </p>
         </div>
-        <a class="btn btn-outline-dark" id="infra" href="auto.html"><img src="warning.png" class="my-2"><strong>Gerar Auto de Infração</strong></a>
-        <hr>
-        <h5 class="card-title text-center mb-4">Verificar valor com desconto, e gerar texto</h5>
         <div style="display: flex;">
-            <select id="desconto" class="form-control mx-2" style="width: 25%;">
-                <option value="">Sem desconto</option>
-                <option value="40">40%</option>
-                <option value="45">45%</option>
-                <option value="50">50%</option>
-                <option value="55">55%</option>
-                <option value="60">60%</option>
-                <option value="65">65%</option>
-                <option value="70">70%</option>
-                <option value="75">75%</option>
-                <option value="80">80%</option>
-                <option value="85">85%</option>
-            </select>
+            <label for="unidadesUfirs" class="px-2">Quantidade de UFIRs</label>
+            <input type="number" class="form-control mx-2" style="width: 25%;" id="unidadesUfirs">
             <input type="text" id="searchInput" placeholder="Digite a atividade" class="form-control" onkeyup="searchActivities()">
             </div>
             <div class="d-grid gap-2 my-2" id="results" >
