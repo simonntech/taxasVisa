@@ -497,6 +497,9 @@ function generateTxt(type) {
 }
 
 function infringement() {
+  const text = document.getElementById('text');
+  const notice = document.getElementById('copy-notice');
+
   const resultsContainer = document.getElementById('results');
   resultsContainer.innerHTML = `
     <div class="card mt-3" style="width: 80%; margin: auto">
@@ -511,9 +514,14 @@ function infringement() {
   const qntUFIR = document.getElementById('qntUFIR').value;
 
   if (qntUFIR && !isNaN(qntUFIR) && qntUFIR > 0) {
-    const valorUFIR = 4.84; // Valor da UFIR em reais
+    const valorUFIR = 37.02; // Valor da UFIR em reais
     const valorTotal = qntUFIR * valorUFIR;
     const valorFormatado = `R$ ${valorTotal.toFixed(2).replace('.', ',')}`;
+
+    const textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: ${valorFormatado} (REFERENTE AO AUTO DE IMPOSIÇÃO DE PENALIDADE DE MULTA Nº 350210-1- 003/25, POR INCORRER EM INFRAÇÃO SANITÁRIA CONSIDERADA DE RISCO À SAÚDE)`;
+
+    text.innerText = textoFinal;
   }
+
   
 }
