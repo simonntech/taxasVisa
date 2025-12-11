@@ -406,6 +406,15 @@ function selectActivity(activity) {
     <h6 class="text-center my-2 text-muted">Clique no texto abaixo para copiar</h6>
   `;
 
+  //condição se for Responsabilidade Técnica
+  if (activity.texto === 'Termos de responsabilidade técnica') {
+    botoes = `
+    <div class="btn-group mb-2 mt-2">
+      <button class="btn btn-outline-dark" onclick="generateTxt('rt')">Termo de Responsabilidade Técnica</button>
+    </div>
+    `
+  }
+
   if (desconto && !isNaN(desconto)) {
     const descontoPercentual = parseFloat(desconto) / 100;
     valorFinal = valorTaxa - (valorTaxa * descontoPercentual);
@@ -437,6 +446,7 @@ function generateTxt(type) {
   let percentualMulta = 0;
   let isFine = false;
   let initial = false;
+  let rt = false;
 
   switch(type) {
     case 'multa1':
@@ -461,6 +471,10 @@ function generateTxt(type) {
       break;
     case 'inicial':
       initial = true;
+      break;
+    case 'rt':
+      rt = true;
+      break;
     case 'licenciamento':
       default:
       break;
@@ -478,6 +492,8 @@ function generateTxt(type) {
     textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: <strong>${valorFormatado}</strong> (TAXA DE MULTA MORATÓRIA POR ATRASO NA SOLICITAÇÃO DA LICENÇA DE FUNCIONAMENTO PARA <strong>${activityUpper}</strong>)`
   } else if (initial) {
     textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: <strong>${valorFormatado}</strong> (TAXA DE FISCALIZAÇÃO PARA LICENCIAMENTO INICIAL PARA <strong>${activityUpper}</strong>)` 
+  } else if (rt) {
+    textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: <strong>${valorFormatado}</strong> (TAXA DE <strong>${activityUpper}</strong>)`
   } else {
     textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: <strong>${valorFormatado}</strong> (TAXA DE FISCALIZAÇÃO PARA RENOVAÇÃO DA LICENÇA PARA <strong>${activityUpper}</strong>)`
   }
@@ -498,7 +514,7 @@ function infringement() {
   const resultsContainer = document.getElementById('results');
 
   resultsContainer.innerHTML = `
-    <div class="card mt-3" style="width: 80%; margin: auto">
+    <div class="card mt-3" style="width: 95%; margin: auto">
       <div class="card-body">
         <h5 class="card-title">Auto de Infração</h5>
         <input type="number" min="0" id="qntUFIR" class="form-control mb-2" placeholder="Quantidade de UFIRs">
