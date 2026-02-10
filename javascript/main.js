@@ -337,6 +337,24 @@ const activities = [
 
 let selectedActivityData = null;
 
+/* ==============================
+   UTILITÁRIOS
+================================ */
+
+function parseValor(valor) {
+  return parseFloat(
+    valor.replace('R$', '').replace(/\./g, '').replace(',', '.')
+  );
+}
+
+function formatarValor(valor) {
+  return `R$ ${valor.toFixed(2).replace('.', ',')}`;
+}
+
+/* ==============================
+   BUSCA DE ATIVIDADES
+================================ */
+
 function searchActivities() {
   const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
   const resultsContainer = document.getElementById('results');
@@ -352,19 +370,20 @@ function searchActivities() {
           <p class="card-text">Digite uma atividade!</p>
         </div>
       </div>
-    `
+    `;
     return;
   }
 
-  //Filtrar atividades pelo termo de busca
-  const filteredActivites = activities.filter(activity => activity.texto.toLowerCase().includes(searchTerm));
+  const filteredActivities = activities.filter(activity =>
+    activity.texto.toLowerCase().includes(searchTerm)
+  );
 
-  if(filteredActivites.length > 0) {
-    filteredActivites.forEach(activity => {
+  if (filteredActivities.length > 0) {
+    filteredActivities.forEach(activity => {
       const p = document.createElement('p');
-      p.classList.add('btn','btn-outline-dark', 'mb-2', 'd-grid' , 'text-center')
+      p.classList.add('btn', 'btn-outline-dark', 'mb-2', 'd-grid', 'text-center');
       p.innerHTML = `
-        ${activity.texto}: <strong>Taxa: </strong>${activity.valor}
+        ${activity.texto}: <strong>Taxa:</strong> ${activity.valor}
       `;
       p.onclick = () => selectActivity(activity);
       resultsContainer.appendChild(p);
@@ -376,67 +395,94 @@ function searchActivities() {
           <p class="card-text">Não encontrado...</p>
         </div>
       </div>
-    `
+    `;
   }
 }
 
+/* ==============================
+   SELEÇÃO DE ATIVIDADE
+================================ */
+
 function selectActivity(activity) {
-  selectedActivityData = activity;
+  selectedActivityData = {
+    texto: activity.texto,
+    valorOriginalTexto: activity.valor,
+    valorBase: parseValor(activity.valor),
+    valorFinalCalculado: null
+  };
 
-  const resultsContainer = document.getElementById('results');
   const descontoSelect = document.getElementById('desconto');
-  const desconto = descontoSelect.value;
 
-  let valorTaxa = parseFloat(activity.valor.replace('R$', '').replace('.', '').replace(',', '.'));
-  let valorFinal = valorTaxa;
-  let textoResultado = `
-    <strong>Atividade:</strong> ${activity.texto}<br>
-    <strong>Valor original:</strong> ${activity.valor}
-  `;
+  // recalcula sempre que mudar o desconto
+  descontoSelect.onchange = atualizarResultado;
+
+  atualizarResultado();
+}
+
+/* ==============================
+   CÁLCULO + RENDERIZAÇÃO
+================================ */
+
+function atualizarResultado() {
+  const resultsContainer = document.getElementById('results');
+  const desconto = parseFloat(document.getElementById('desconto').value) || 0;
+
+  const valorBase = selectedActivityData.valorBase;
+  const descontoPercentual = desconto / 100;
+  const valorFinal = valorBase - (valorBase * descontoPercentual);
+
+  selectedActivityData.valorFinalCalculado = valorFinal;
 
   let botoes = `
     <div class="btn-group mb-2 mt-2">
-      <button class="btn btn-outline-dark" onclick="generateTxt('inicial')">Licenciamento inicial</button>
-      <button class="btn btn-outline-dark" onclick="generateTxt('licenciamento')">Renovar Licenciamento</button>
-      <!-- <button class="btn btn-outline-dark" onclick="generateTxt('multa1')" >Multa Moratória 1 mês</button> -->
-      <!--<button class="btn btn-outline-dark" onclick="generateTxt('multa2')" >Multa Moratória 2 meses</button> -->
-      <!--<button class="btn btn-outline-dark" onclick="generateTxt('multa3')" >Multa Moratória 3 meses</button> -->
-      <!--<button class="btn btn-outline-dark" onclick="generateTxt('multaMais3')" >Multa Moratória mais de 3 meses</button> -->
+      <button class="btn btn-outline-dark" onclick="generateTxt('inicial')">
+        Licenciamento inicial
+      </button>
+      <button class="btn btn-outline-dark" onclick="generateTxt('licenciamento')">
+        Renovar Licenciamento
+      </button>
     </div>
-    <h6 class="text-center my-2 text-muted">Clique no texto abaixo para copiar</h6>
+    <h6 class="text-center my-2 text-muted">
+      Clique no texto abaixo para copiar
+    </h6>
   `;
 
-  //condição se for Responsabilidade Técnica
-  if (activity.texto === 'Termos de responsabilidade técnica') {
+  if (selectedActivityData.texto === 'Termos de responsabilidade técnica') {
     botoes = `
-    <div class="btn-group mb-2 mt-2">
-      <button class="btn btn-outline-dark" onclick="generateTxt('rt')">Termo de Responsabilidade Técnica</button>
-    </div>
-    `
-  }
-
-  if (desconto && !isNaN(desconto)) {
-    const descontoPercentual = parseFloat(desconto) / 100;
-    valorFinal = valorTaxa - (valorTaxa * descontoPercentual);
-    textoResultado += `
-      <br><strong>Desconto:</strong> ${desconto}%<br>
-      <strong>Valor com desconto: </strong> R$ ${valorFinal.toFixed(2).replace('.', ',')}
+      <div class="btn-group mb-2 mt-2">
+        <button class="btn btn-outline-dark" onclick="generateTxt('rt')">
+          Termo de Responsabilidade Técnica
+        </button>
+      </div>
     `;
   }
 
-  selectedActivityData.valorFinalCalculado = valorFinal;
+  let textoResultado = `
+    <strong>Atividade:</strong> ${selectedActivityData.texto}<br>
+    <strong>Valor original:</strong> ${formatarValor(valorBase)}
+  `;
+
+  if (desconto > 0) {
+    textoResultado += `
+      <br><strong>Desconto:</strong> ${desconto}%<br>
+      <strong>Valor com desconto:</strong> ${formatarValor(valorFinal)}
+    `;
+  }
 
   textoResultado += botoes;
 
   resultsContainer.innerHTML = `
-    <div class="card mt-3" style=" margin: auto">
+    <div class="card mt-3">
       <div class="card-body">
         <p class="card-text">${textoResultado}</p>
       </div>
     </div>
   `;
-
 }
+
+/* ==============================
+   GERAÇÃO DO TEXTO FINAL
+================================ */
 
 function generateTxt(type) {
   const text = document.getElementById('text');
@@ -448,25 +494,21 @@ function generateTxt(type) {
   let initial = false;
   let rt = false;
 
-  switch(type) {
+  switch (type) {
     case 'multa1':
-      percentualMulta = 0.05; // 5%
-      valorBase = selectedActivityData.valorFinalCalculado;
+      percentualMulta = 0.05;
       isFine = true;
       break;
     case 'multa2':
-      percentualMulta = 0.15; // 15%
-      valorBase = selectedActivityData.valorFinalCalculado;
+      percentualMulta = 0.15;
       isFine = true;
       break;
     case 'multa3':
-      percentualMulta = 0.50; // 50%
-      valorBase = selectedActivityData.valorFinalCalculado;
+      percentualMulta = 0.50;
       isFine = true;
       break;
     case 'multaMais3':
-      percentualMulta = 1.00; // 100%
-      valorBase = selectedActivityData.valorFinalCalculado;
+      percentualMulta = 1.00;
       isFine = true;
       break;
     case 'inicial':
@@ -476,86 +518,48 @@ function generateTxt(type) {
       rt = true;
       break;
     case 'licenciamento':
-      default:
+    default:
       break;
-    }
+  }
 
-  const valorMulta = isFine ? (valorBase * percentualMulta) : 0;
-  const valorFinalComMulta = isFine ? valorMulta : valorBase;
+  const valorFinal = isFine
+    ? valorBase + (valorBase * percentualMulta)
+    : valorBase;
 
-  const valorFormatado = `R$ ${valorFinalComMulta.toFixed(2).replace('.', ',')}`;
+  const valorFormatado = formatarValor(valorFinal);
   const activityUpper = selectedActivityData.texto.toUpperCase();
 
-  let textoFinal;
-  
+  let textoFinal = '';
+
   if (isFine) {
-    textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: <strong>${valorFormatado}</strong> (TAXA DE MULTA MORATÓRIA POR ATRASO NA SOLICITAÇÃO DA LICENÇA DE FUNCIONAMENTO PARA <strong>${activityUpper}</strong>)`
+    textoFinal = `
+      FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013)
+      VALOR EM UFESP: <strong>${valorFormatado}</strong>
+      (TAXA DE MULTA MORATÓRIA POR ATRASO NA SOLICITAÇÃO DA LICENÇA DE FUNCIONAMENTO PARA
+      <strong>${activityUpper}</strong>)
+    `;
   } else if (initial) {
-    textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: <strong>${valorFormatado}</strong> (TAXA DE FISCALIZAÇÃO PARA LICENCIAMENTO INICIAL PARA <strong>${activityUpper}</strong>)` 
+    textoFinal = `
+      FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013)
+      VALOR EM UFESP: <strong>${valorFormatado}</strong>
+      (TAXA DE FISCALIZAÇÃO PARA LICENCIAMENTO INICIAL PARA
+      <strong>${activityUpper}</strong>)
+    `;
   } else if (rt) {
-    textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: <strong>${valorFormatado}</strong> (TAXA DE <strong>${activityUpper}</strong>)`
+    textoFinal = `
+      FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013)
+      VALOR EM UFESP: <strong>${valorFormatado}</strong>
+      (TERMO DE RESPONSABILIDADE TÉCNICA)
+    `;
   } else {
-    textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: <strong>${valorFormatado}</strong> (TAXA DE FISCALIZAÇÃO PARA RENOVAÇÃO DA LICENÇA PARA <strong>${activityUpper}</strong>)`
+    textoFinal = `
+      FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013)
+      VALOR EM UFESP: <strong>${valorFormatado}</strong>
+      (TAXA DE FISCALIZAÇÃO PARA RENOVAÇÃO DA LICENÇA DE FUNCIONAMENTO PARA
+      <strong>${activityUpper}</strong>)
+    `;
   }
 
   text.innerHTML = textoFinal;
-  text.onclick = function () {
-    navigator.clipboard.writeText(text.innerText).then(() => {
-      notice.style.display = 'inline';
-      setTimeout(() => {
-        notice.style.display = 'none';
-      }, 2000);
-    })
-  }
-
-}
-
-function infringement() {
-  const resultsContainer = document.getElementById('results');
-
-  resultsContainer.innerHTML = `
-    <div class="card mt-3" style="width: 95%; margin: auto">
-      <div class="card-body">
-        <h5 class="card-title">Auto de Infração</h5>
-        <input type="number" min="0" id="qntUFIR" class="form-control mb-2" placeholder="Quantidade de UFIRs">
-        <input type="search" id="numAutoInfracao" class="form-control mb-2" autocomplete="off" placeholder="Número do Auto de Infração">
-        <button class="btn btn-outline-dark" onclick="infringementBtn()" id="infra"><strong>Gerar Texto</strong></button>
-      </div>
-    </div>
-  `;
-
-}
-
-function infringementBtn() {
-  const text = document.getElementById('text');
-  const notice = document.getElementById('copy-notice');
-  const qntUFIR = document.getElementById('qntUFIR').value;
-  const numAutoInfracao = document.getElementById('numAutoInfracao').value;
-
-if (qntUFIR === '' || isNaN(qntUFIR) || qntUFIR <= 0) {
-  text.innerHTML = `
-    <div class="card border-danger mb-3" style="max-width: 15rem; margin: auto">
-      <div class="card-body text-danger">
-        <p class="card-text">Digite uma quantidade de UFIRs válida.</p>
-      </div>
-    </div>
-  `;
-  } else {
-    const valorUFIR = 37.02; // Valor da UFIR em reais
-    const valorTotal = qntUFIR * valorUFIR;
-    const valorFormatado = `R$ ${valorTotal.toFixed(2).replace('.', ',')}`;
-
-    const textoFinal = `FINALIDADE: (CONFORME LEI ESTADUAL N.º 15.266 DE 26 DE DEZEMBRO DE 2013) VALOR EM UFESP: <strong>${valorFormatado}</strong> (REFERENTE AO AUTO DE IMPOSIÇÃO DE PENALIDADE DE MULTA <strong>Nº ${numAutoInfracao}</strong>, POR INCORRER EM INFRAÇÃO SANITÁRIA CONSIDERADA DE RISCO À SAÚDE)`;
-
-    text.innerHTML = textoFinal;
-
-    text.onclick = function () {
-      navigator.clipboard.writeText(text.innerText).then(() => {
-        notice.style.display = 'inline';
-        setTimeout(() => {
-          notice.style.display = 'none';
-        }, 2000);
-      })
-    }
-  }
+  notice.style.display = 'block';
 }
