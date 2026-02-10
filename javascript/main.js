@@ -398,10 +398,10 @@ function selectActivity(activity) {
     <div class="btn-group mb-2 mt-2">
       <button class="btn btn-outline-dark" onclick="generateTxt('inicial')">Licenciamento inicial</button>
       <button class="btn btn-outline-dark" onclick="generateTxt('licenciamento')">Renovar Licenciamento</button>
-      <button class="btn btn-outline-dark" onclick="generateTxt('multa1')" >Multa Moratória 1 mês</button>
-      <button class="btn btn-outline-dark" onclick="generateTxt('multa2')" >Multa Moratória 2 meses</button>
-      <button class="btn btn-outline-dark" onclick="generateTxt('multa3')" >Multa Moratória 3 meses</button>
-      <button class="btn btn-outline-dark" onclick="generateTxt('multaMais3')" >Multa Moratória mais de 3 meses</button>
+      <!-- <button class="btn btn-outline-dark" onclick="generateTxt('multa1')" >Multa Moratória 1 mês</button> -->
+      <!--<button class="btn btn-outline-dark" onclick="generateTxt('multa2')" >Multa Moratória 2 meses</button> -->
+      <!--<button class="btn btn-outline-dark" onclick="generateTxt('multa3')" >Multa Moratória 3 meses</button> -->
+      <!--<button class="btn btn-outline-dark" onclick="generateTxt('multaMais3')" >Multa Moratória mais de 3 meses</button> -->
     </div>
     <h6 class="text-center my-2 text-muted">Clique no texto abaixo para copiar</h6>
   `;
