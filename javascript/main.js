@@ -562,4 +562,13 @@ function generateTxt(type) {
 
   text.innerHTML = textoFinal;
   notice.style.display = 'block';
+
+  text.onclick = function () {
+    navigator.clipboard.writeText(text.innerText).then(() => {
+      notice.style.display = 'inline';
+      setTimeout(() => {
+        notice.style.display = 'none';
+      }, 2000);
+    })
+  }
 }
